@@ -18,18 +18,32 @@ class NextButtonWidget extends StatelessWidget {
     @required this.onTap,
   });
 
-  NextButtonWidget.green({@required String label, @required voidCallback})
+  NextButtonWidget.green({@required String label, @required onTap})
       : this.backgroundColor = AppColors.darkGreen,
         this.fontColor = AppColors.white,
         this.borderColor = AppColors.darkGreen,
-        this.onTap = voidCallback,
+        this.onTap = onTap,
         this.label = label;
 
-  NextButtonWidget.white({@required String label, @required voidCallback})
+  NextButtonWidget.white({@required String label, @required onTap})
       : this.backgroundColor = AppColors.white,
         this.fontColor = AppColors.grey,
         this.borderColor = AppColors.border,
-        this.onTap = voidCallback,
+        this.onTap = onTap,
+        this.label = label;
+
+  NextButtonWidget.purple({@required String label, @required onTap})
+      : this.backgroundColor = AppColors.purple,
+        this.fontColor = AppColors.white,
+        this.borderColor = AppColors.purple,
+        this.onTap = onTap,
+        this.label = label;
+
+  NextButtonWidget.transparent({@required String label, @required onTap})
+      : this.backgroundColor = Colors.transparent,
+        this.fontColor = Colors.black,
+        this.borderColor = Colors.transparent,
+        this.onTap = onTap,
         this.label = label;
 
   @override
@@ -49,12 +63,13 @@ class NextButtonWidget extends StatelessWidget {
           ),
         ),
         onPressed: onTap,
-        child: Text(label, 
+        child: Text(
+          label,
           style: GoogleFonts.notoSans(
-              fontWeight: FontWeight.w600,
-              color: fontColor,
-            ),
+            fontWeight: FontWeight.w600,
+            color: fontColor,
           ),
+        ),
       ),
     );
   }

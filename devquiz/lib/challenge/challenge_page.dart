@@ -2,12 +2,14 @@ import 'package:devquiz/challenge/challenge_controller.dart';
 import 'package:devquiz/challenge/widgets/next_button/next_button_widget.dart';
 import 'package:devquiz/challenge/widgets/question_indicator/question_indicator_widget.dart';
 import 'package:devquiz/challenge/widgets/quiz/quiz_widget.dart';
+import 'package:devquiz/result/result_page.dart';
 import 'package:devquiz/shared/models/question_model.dart';
 import 'package:flutter/material.dart';
 
 class ChallengePage extends StatefulWidget {
   final List<QuestionModel> questions;
-  ChallengePage({this.questions});
+  final String title;
+  ChallengePage({@required this.questions, @required this.title});
   @override
   _ChallengePageState createState() => _ChallengePageState();
 }
@@ -27,6 +29,12 @@ class _ChallengePageState extends State<ChallengePage> {
     if (controller.currentPage < widget.questions.length)
       pageController.nextPage(
           duration: Duration(milliseconds: 150), curve: Curves.linear);
+  }
+
+  onSelected(bool value) {
+    if (value)
+      controller.rights++;
+    nextPage();
   }
 
   @override
@@ -60,7 +68,7 @@ class _ChallengePageState extends State<ChallengePage> {
         children: widget.questions
             .map((e) => QuizWidget(
                   question: e,
-                  onChange: nextPage,
+                  onSelected: onSelected,
                 ))
             .toList(),
       ),
@@ -76,14 +84,20 @@ class _ChallengePageState extends State<ChallengePage> {
                   Expanded(
                     child: NextButtonWidget.white(
                       label: "Pular",
-                      voidCallback: nextPage,
+                      onTap: nextPage,
                     ),
                   ),
                 if (value == widget.questions.length)
                   Expanded(
                     child: NextButtonWidget.green(
                       label: "Concluir",
-                      voidCallback: () {},
+                      onTap: () {
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => 
+                          ResultPage(
+                            title: widget.title, 
+                            length: widget.questions.length, 
+                            rights: controller.rights,)));
+                      },
                     ),
                   ),
               ],
